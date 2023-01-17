@@ -138,15 +138,20 @@ app.get("/refresh_token", function (req, res) {
       res.send({
         access_token: access_token,
       });
+
+      spotifyApi.setAccessToken(access_token);
     }
   });
 });
 
-// get songs recently played in the last 24 hours
+// get songs recently played in the last 24 hours from midnight of the last day
 app.get("/recently-played", function (req, res) {
+
+
+
   spotifyApi
     .getMyRecentlyPlayedTracks({
-      after: Math.floor(Date.now() / 1000) - 60 * 60 * 24,
+      after: Math.floor(new Date().setHours(0, 0, 0, 0)),
       limit: 50,
     })
     .then(
