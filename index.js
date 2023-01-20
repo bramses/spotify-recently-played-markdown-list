@@ -148,10 +148,15 @@ app.get("/refresh_token", function (req, res) {
 app.get("/recently-played", function (req, res) {
 
 
+  // set day to yesterday
+  const yesterday = new Date();
+  yesterday.setDate(yesterday.getDate() - 1);
+  yesterday.setHours(0, 0, 0, 0);
+
 
   spotifyApi
     .getMyRecentlyPlayedTracks({
-      after: Math.floor(new Date().setHours(0, 0, 0, 0)),
+      after: Math.floor(yesterday),
       limit: 50,
     })
     .then(
